@@ -1,0 +1,1 @@
+./pacman pacman_ai_agent=nn153006688607-905 plays=1
