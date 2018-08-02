@@ -17,6 +17,7 @@ public:
     Ghost_Agent(int intelligence) {
         intelligenceGhost = intelligence;
     }
+    //lunafreya
     inline Direction take_action(const State& s, uint ghost_id) {
         const Ghost_State& ghost = s.ghosts[ghost_id];
         int randomValue = 0;
@@ -27,10 +28,12 @@ public:
             else {
                 Direction d;
                 randomValue = rand() % 100 + 1;
-                cout << "Valor aqui::" << randomValue << endl;
                 switch(ghost.behaviour) {
                     case SCATTER:
+                            if(randomValue > intelligenceGhost) {
                             d = PathMagic::from_to(ghost.pos, ghost.scatter_pos); break;
+                        }
+                        d = PathMagic::from_to(ghost.pos, s.pacman.pos); break;
                     case CHASE:
                         if(randomValue > intelligenceGhost) {
                             d = PathMagic::from_to(ghost.pos, ghost.scatter_pos); break;

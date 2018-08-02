@@ -82,10 +82,11 @@ private:
 
                 ghost.n_rounds_left_behaviour = max(1, (int) distribution(Arguments::random_generator));
             }
-
-            if (ghost.behaviour == SCATTER) {
-                while (ghost.scatter_pos == ghost.pos) ghost.scatter_pos = State::random_valid_pos();
-            }
+            //luanfreya
+            while (ghost.scatter_pos == ghost.pos) ghost.scatter_pos = State::random_valid_pos();
+            //if (ghost.behaviour == SCATTER) {
+                //while (ghost.scatter_pos == ghost.pos) ghost.scatter_pos = State::random_valid_pos();
+            //}
         }
     }
 
@@ -154,10 +155,11 @@ public:
                 }
 
                 if (cell == State::PACMAN) state.pacman = Agent_State(Position(i, j), Direction::UP);
+                //luanfreya
                 else if (cell == State::BLINKY) {
                     state.maze[i][j] = State::SPAWN_AREA;
                     state.ghosts.push_back(Ghost_State(Position(i, j), Direction::LEFT, 1));
-                    ghosts.push_back((Agent*)new Ghost_Agent(90));
+                    ghosts.push_back((Agent*)new Ghost_Agent(80));
                 }
                 else if (cell == State::PINKY) {
                     state.maze[i][j] = State::SPAWN_AREA;
@@ -167,12 +169,12 @@ public:
                 else if (cell == State::INKY) {
                     state.maze[i][j] = State::SPAWN_AREA;
                     state.ghosts.push_back(Ghost_State(Position(i, j), Direction::UP, 3));
-                    ghosts.push_back((Agent*)new Ghost_Agent(30));
+                    ghosts.push_back((Agent*)new Ghost_Agent(40));
                 }
                 else if (cell == State::CLYDE) {
                     state.maze[i][j] = State::SPAWN_AREA;
                     state.ghosts.push_back(Ghost_State(Position(i, j), Direction::UP, 4));
-                    ghosts.push_back((Agent*)new Ghost_Agent(0));
+                    ghosts.push_back((Agent*)new Ghost_Agent(20));
                 }
             }
         }
