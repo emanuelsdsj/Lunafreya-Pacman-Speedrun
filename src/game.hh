@@ -109,6 +109,7 @@ public:
 
     void load_maze() {
         loaded_maze = true;
+
         ifstream maze_file;
         maze_file.open(Arguments::maze_path);
 
@@ -128,7 +129,7 @@ public:
             char dummy; maze_file >> dummy;
             for (int j = 0; j < cols; ++j) {
                 char cell; maze_file >> cell;
-                state.maze[i][j] = cell != State::PACMAN and cell != State::GHOST ? cell : State::FREE;
+                state.maze[i][j] = cell != State::PACMAN and cell != State::BLINKY and cell != State::PINKY and cell != State::INKY and cell != State::CLYDE ? cell : State::FREE;
 
                 state.n_normal_pills_left += cell == State::PILL;
                 state.n_powerpills_left += cell == State::POWER_PILL;
@@ -148,29 +149,29 @@ public:
 
                 if (cell != State::WALL) {
                     state.valid_positions.push_back(Position(i, j));
-                    if (cell != State::SPAWN_AREA and cell != State::GHOST) state.valid_positions_no_spawn.push_back(Position(i, j));
+                    if (cell != State::SPAWN_AREA and cell != State::BLINKY and cell != State::PINKY and cell != State::INKY and cell != State::CLYDE) state.valid_positions_no_spawn.push_back(Position(i, j));
                     PathMagic::index_from_pos[i][j] = valid_index++;
                 }
 
                 if (cell == State::PACMAN) state.pacman = Agent_State(Position(i, j), Direction::UP);
                 else if (cell == State::BLINKY) {
                     state.maze[i][j] = State::SPAWN_AREA;
-                    state.ghosts.push_back(Ghost_State(Position(i, j), Direction::LEFT));
+                    state.ghosts.push_back(Ghost_State(Position(i, j), Direction::LEFT, 1));
                     ghosts.push_back((Agent*)new Ghost_Agent(90));
                 }
                 else if (cell == State::PINKY) {
                     state.maze[i][j] = State::SPAWN_AREA;
-                    state.ghosts.push_back(Ghost_State(Position(i, j), Direction::UP));
+                    state.ghosts.push_back(Ghost_State(Position(i, j), Direction::UP, 2));
                     ghosts.push_back((Agent*)new Ghost_Agent(60));
                 }
                 else if (cell == State::INKY) {
                     state.maze[i][j] = State::SPAWN_AREA;
-                    state.ghosts.push_back(Ghost_State(Position(i, j), Direction::UP));
+                    state.ghosts.push_back(Ghost_State(Position(i, j), Direction::UP, 3));
                     ghosts.push_back((Agent*)new Ghost_Agent(30));
                 }
                 else if (cell == State::CLYDE) {
                     state.maze[i][j] = State::SPAWN_AREA;
-                    state.ghosts.push_back(Ghost_State(Position(i, j), Direction::UP));
+                    state.ghosts.push_back(Ghost_State(Position(i, j), Direction::UP, 4));
                     ghosts.push_back((Agent*)new Ghost_Agent(0));
                 }
             }

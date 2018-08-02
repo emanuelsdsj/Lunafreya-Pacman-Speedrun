@@ -14,14 +14,13 @@ struct State {
     static const uchar PILL = '.';
     static const uchar POWER_PILL = 'o';
     static const uchar PACMAN = 'P';
-    static const uchar GHOST = 'G';
     static const uchar BLINKY = 'B';
     static const uchar PINKY = 'K';
     static const uchar INKY = 'I';
     static const uchar CLYDE = 'C';
     static const uchar FREE = ' ';
     static const uchar WALL = '%';
-    static const uchar SPAWN_AREA = 'X';;
+    static const uchar SPAWN_AREA = 'X';
 
     // Contains the current state of the maze
     // NOTE THAT PACMAN AND GHOSTS ARE **NOT** HERE
@@ -97,12 +96,26 @@ struct State {
 
         maze_aux[s.pacman.pos.i][s.pacman.pos.j] = 'P';
 
-        for (const Ghost_State& ghost : s.ghosts)
+        //for (const Ghost_State& ghost : s.ghosts)
+            //if (ghost.n_rounds_revive == 0) {
+                //if (s.is_scared(ghost)) maze_aux[ghost.pos.i][ghost.pos.j] = 'S';
+                //else if (ghost.behaviour == Ghost_Behaviour::SCATTER) maze_aux[ghost.pos.i][ghost.pos.j] = 'R';
+                //else maze_aux[ghost.pos.i][ghost.pos.j] = 'C';
+            //}
+        //Lunafreya
+        for (const Ghost_State& ghost : s.ghosts) {
             if (ghost.n_rounds_revive == 0) {
                 if (s.is_scared(ghost)) maze_aux[ghost.pos.i][ghost.pos.j] = 'S';
-                else if (ghost.behaviour == Ghost_Behaviour::SCATTER) maze_aux[ghost.pos.i][ghost.pos.j] = 'R';
-                else maze_aux[ghost.pos.i][ghost.pos.j] = 'C';
+                else {
+                    switch(ghost.typeGhost) {
+                        case 1: maze_aux[ghost.pos.i][ghost.pos.j] = 'B'; break;
+                        case 2: maze_aux[ghost.pos.i][ghost.pos.j] = 'K'; break;
+                        case 3: maze_aux[ghost.pos.i][ghost.pos.j] = 'I'; break;
+                        case 4: maze_aux[ghost.pos.i][ghost.pos.j] = 'C'; break;
+                    }
+                }
             }
+        }
         o << "Round " << s.round << ":" << endl
           << maze_aux << endl
           << "Pills left: " << s.n_normal_pills_left << endl

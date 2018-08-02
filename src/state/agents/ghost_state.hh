@@ -20,18 +20,21 @@ public:
     int scatter_cycle_rounds;
     int chase_cycle_rounds;
 
+    //lunafreya
+    int typeGhost;
+
     Ghost_Behaviour behaviour;
     Position scatter_pos;
     int n_rounds_left_behaviour; // rounds left of current behaviour
                                  // will change in next round if 0
                                  // decreases anyway if ghost is scared or dead
 
-    Ghost_State(const Position& pos, const Direction& dir) :
+    Ghost_State(const Position& pos, const Direction& dir, int ghostType) :
         Agent_State(pos, dir), initial_pos(pos), maybe_scared(false), n_rounds_revive(0),
         scatter_cycle_rounds(Arguments::initial_scatter_cycle_rounds),
         chase_cycle_rounds(Arguments::initial_chase_cycle_rounds),
         behaviour(CHASE), /* They will start with the opposite (SCATTER) */
-        n_rounds_left_behaviour(0) {}
+        n_rounds_left_behaviour(0) { typeGhost = ghostType;}
 
     void operator=(const Ghost_State& o) {
         Agent_State::operator=(o);
