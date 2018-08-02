@@ -36,7 +36,7 @@ public:
                         d = PathMagic::from_to(ghost.pos, s.pacman.pos); break;
                     case CHASE:
                         if(randomValue > intelligenceGhost) {
-                            d = PathMagic::from_to(ghost.pos, ghost.scatter_pos); break;
+                            d = PathMagic::from_to(ghost.pos, s.pacman.prev); break;
                         }
                         d = PathMagic::from_to(ghost.pos, s.pacman.pos); break;
                     default:

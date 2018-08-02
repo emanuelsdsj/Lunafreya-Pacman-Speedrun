@@ -174,7 +174,7 @@ public:
                 else if (cell == State::CLYDE) {
                     state.maze[i][j] = State::SPAWN_AREA;
                     state.ghosts.push_back(Ghost_State(Position(i, j), Direction::UP, 4));
-                    ghosts.push_back((Agent*)new Ghost_Agent(20));
+                    ghosts.push_back((Agent*)new Ghost_Agent(0));
                 }
             }
         }
