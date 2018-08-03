@@ -83,10 +83,10 @@ private:
                 ghost.n_rounds_left_behaviour = max(1, (int) distribution(Arguments::random_generator));
             }
             //luanfreya
-            while (ghost.scatter_pos == ghost.pos) ghost.scatter_pos = State::random_valid_pos();
-            //if (ghost.behaviour == SCATTER) {
-                //while (ghost.scatter_pos == ghost.pos) ghost.scatter_pos = State::random_valid_pos();
-            //}
+            //while (ghost.scatter_pos == ghost.pos) ghost.scatter_pos = State::random_valid_pos();
+            if (ghost.behaviour == SCATTER) {
+                while (ghost.scatter_pos == ghost.pos) ghost.scatter_pos = State::random_valid_pos();
+            }
         }
     }
 
@@ -169,7 +169,7 @@ public:
                 else if (cell == State::INKY) {
                     state.maze[i][j] = State::SPAWN_AREA;
                     state.ghosts.push_back(Ghost_State(Position(i, j), Direction::UP, 3));
-                    ghosts.push_back((Agent*)new Ghost_Agent(40));
+                    ghosts.push_back((Agent*)new Ghost_Agent(50));
                 }
                 else if (cell == State::CLYDE) {
                     state.maze[i][j] = State::SPAWN_AREA;
@@ -228,7 +228,6 @@ public:
             state.n_rounds_powerpill = max(0, state.n_rounds_powerpill - 1);
 
             Direction pacman_direction = pacman->take_action(state, 0);
-
             Position pacman_previous_pos = state.pacman.pos;
             vector<Position> ghost_previous_pos(state.n_ghosts);
             for (int i = 0; i < state.n_ghosts; ++i) ghost_previous_pos[i] = state.ghosts[i].pos;
@@ -331,14 +330,14 @@ public:
                 else {
                     --ghost.n_rounds_revive;
                 }
-
+                state.ghosts[i].lastPrev = state.ghosts[i].prev;
                 state.ghosts[i].prev = ghost_previous_pos[i];
             }
             if(state.n_rounds_powerpill <= 0)
                 state.combo = 0;
-            
+            //Lunafreya Changes
+            state.pacman.lastPrev = state.pacman.prev;
             state.pacman.prev = pacman_previous_pos;
-
             if (Arguments::plays == 1) cout << state << endl;
             //Lunafreya Changes
             //std::cout << "Elapsed: " << duration_cast<double>(sw.elapsed()) << " " << state.total_points << '\n';

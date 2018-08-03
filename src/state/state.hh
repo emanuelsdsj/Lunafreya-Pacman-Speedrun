@@ -171,6 +171,14 @@ struct State {
         return valid_positions_no_spawn[distribution_valid_pos_no_spawn(Arguments::random_generator)];
     }
 
+    inline static bool validPosition(Position pos) {
+        for (Position& posValid : valid_positions_no_spawn) {
+            if(posValid == pos)
+                return true;
+        }
+        return false;
+    }
+
     inline bool is_scared(const Ghost_State& ghost) const {
         return n_rounds_powerpill > 0 and ghost.maybe_scared;
     }
