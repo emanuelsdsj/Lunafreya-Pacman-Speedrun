@@ -28,7 +28,7 @@ struct GameResult {
 
 class Game {
 private:
-
+    int roundsTeste = 0;
     vector<Agent*> ghosts;
 
     float ghost_speed(int ghost_id) {
@@ -65,12 +65,14 @@ private:
 
                 switch (ghost.behaviour) {
                     case SCATTER:
+                        roundsTeste++;
                         distribution = normal_distribution<float>(ghost.chase_cycle_rounds, Arguments::cycle_rounds_stdev);
                         ghost.behaviour = Ghost_Behaviour::CHASE;
                         ghost.chase_cycle_rounds = min(1000000, int(ghost.chase_cycle_rounds*Arguments::chase_cycle_factor));
                         break;
                     case CHASE:
-                        if (ghost.scatter_cycle_rounds >= 1) {
+                        if (ghost.scatter_cycle_rounds >= 1) {  
+                            roundsTeste++;
                             distribution = normal_distribution<float>(ghost.scatter_cycle_rounds, Arguments::cycle_rounds_stdev);
                             ghost.behaviour = Ghost_Behaviour::SCATTER;
                             ghost.scatter_cycle_rounds /= Arguments::scatter_cycle_factor;
@@ -338,7 +340,7 @@ public:
             state.pacman.prev = pacman_previous_pos;
             if (Arguments::plays == 1) cout << state << endl;
             //Lunafreya Changes
-            std::cout << "Elapsed: " << duration_cast<double>(sw.elapsed()) << '\n';
+            //std::cout << "Elapsed: " << duration_cast<double>(sw.elapsed()) << " " << roundsTeste << " " << state.ghosts[1].scatter_cycle_rounds <<  " " << state.ghosts[1].chase_cycle_rounds << '\n';
             state.total_points = state.ghost_eaten_total_points + (state.powerpills_eaten * 50) + (state.pills_eaten * 10);
         }
 
