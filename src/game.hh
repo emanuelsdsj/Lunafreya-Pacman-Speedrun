@@ -82,8 +82,6 @@ private:
 
                 ghost.n_rounds_left_behaviour = max(1, (int) distribution(Arguments::random_generator));
             }
-            //luanfreya
-            //while (ghost.scatter_pos == ghost.pos) ghost.scatter_pos = State::random_valid_pos();
             if (ghost.behaviour == SCATTER) {
                 while (ghost.scatter_pos == ghost.pos) ghost.scatter_pos = State::random_valid_pos();
             }
