@@ -108,10 +108,10 @@ struct State {
                 if (s.is_scared(ghost)) maze_aux[ghost.pos.i][ghost.pos.j] = 'S';
                 else {
                     switch(ghost.typeGhost) {
-                        case 1: maze_aux[ghost.pos.i][ghost.pos.j] = 'B'; break;
-                        case 2: maze_aux[ghost.pos.i][ghost.pos.j] = 'K'; break;
-                        case 3: maze_aux[ghost.pos.i][ghost.pos.j] = 'I'; break;
-                        case 4: maze_aux[ghost.pos.i][ghost.pos.j] = 'C'; break;
+                        case 0: maze_aux[ghost.pos.i][ghost.pos.j] = 'B'; break;
+                        case 1: maze_aux[ghost.pos.i][ghost.pos.j] = 'K'; break;
+                        case 2: maze_aux[ghost.pos.i][ghost.pos.j] = 'I'; break;
+                        case 3: maze_aux[ghost.pos.i][ghost.pos.j] = 'C'; break;
                     }
                 }
             }

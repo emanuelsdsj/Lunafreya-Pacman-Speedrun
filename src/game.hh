@@ -40,8 +40,9 @@ private:
     // TODO: Take movement step in account?
     bool game_over_on_collision(Ghost_State& ghost) {
         if (state.is_scared(ghost)) {
-            pacman->notify_killed_ghost();
-            if(state.combo >= 200) {
+            //lunafreya
+            pacman->notify_killed_ghost(state);
+            if(state.combo >= 200 && state.combo < 1600) {
                 state.combo = state.combo * 2;
                 state.ghost_eaten_total_points = state.ghost_eaten_total_points + state.combo;
             }
@@ -88,6 +89,13 @@ private:
                 while (ghost.scatter_pos == ghost.pos) ghost.scatter_pos = State::random_valid_pos();
             }
         }
+    }
+    int elapsedMinutes(int time) {
+        return time / 60;
+    }
+
+    int elapsedSeconds(int time) {
+        return time - (time / 60) * 60;
     }
 
 public:
@@ -158,22 +166,22 @@ public:
                 //luanfreya
                 else if (cell == State::BLINKY) {
                     state.maze[i][j] = State::SPAWN_AREA;
-                    state.ghosts.push_back(Ghost_State(Position(i, j), Direction::LEFT, 1));
+                    state.ghosts.push_back(Ghost_State(Position(i, j), Direction::LEFT, 0));
                     ghosts.push_back((Agent*)new Ghost_Agent(80));
                 }
                 else if (cell == State::PINKY) {
                     state.maze[i][j] = State::SPAWN_AREA;
-                    state.ghosts.push_back(Ghost_State(Position(i, j), Direction::UP, 2));
+                    state.ghosts.push_back(Ghost_State(Position(i, j), Direction::UP, 1));
                     ghosts.push_back((Agent*)new Ghost_Agent(60));
                 }
                 else if (cell == State::INKY) {
                     state.maze[i][j] = State::SPAWN_AREA;
-                    state.ghosts.push_back(Ghost_State(Position(i, j), Direction::UP, 3));
+                    state.ghosts.push_back(Ghost_State(Position(i, j), Direction::UP, 2));
                     ghosts.push_back((Agent*)new Ghost_Agent(50));
                 }
                 else if (cell == State::CLYDE) {
                     state.maze[i][j] = State::SPAWN_AREA;
-                    state.ghosts.push_back(Ghost_State(Position(i, j), Direction::UP, 4));
+                    state.ghosts.push_back(Ghost_State(Position(i, j), Direction::UP, 3));
                     ghosts.push_back((Agent*)new Ghost_Agent(0));
                 }
             }
@@ -205,13 +213,15 @@ public:
         if (Arguments::plays == 1) cout << state << endl;
         Stopwatch<> sw;
         //Lunafreya Changes
-        while (/*state.n_powerpills_left + state.n_normal_pills_left > 0 ||*/ state.total_points < 5000) { // break if game_over
-            //if(duration_cast<double>(sw.elapsed()) > 180){
-                //game_over = true;
-                //sw.reset();
-                //break;
-            //}
-            if(state.n_powerpills_left + state.n_normal_pills_left <= 0 && state.total_points < 5000){
+        while (/*state.n_powerpills_left + state.n_normal_pills_left > 0 ||*/ state.total_points < 7000 && state.round <= 1216) { // break if game_over
+            //Lunafreya Changes
+            if(state.round > 1215){
+                game_over = true;
+                sw.reset();
+                break;
+            }
+            //Lunafreya Changes
+            if(state.n_powerpills_left + state.n_normal_pills_left <= 0 && state.total_points < 7000){
                 game_over = true;
                 sw.reset();
                 break;
@@ -330,17 +340,16 @@ public:
                 else {
                     --ghost.n_rounds_revive;
                 }
-                state.ghosts[i].lastPrev = state.ghosts[i].prev;
                 state.ghosts[i].prev = ghost_previous_pos[i];
             }
+            //Lunafreya Changes
             if(state.n_rounds_powerpill <= 0)
                 state.combo = 0;
-            //Lunafreya Changes
-            state.pacman.lastPrev = state.pacman.prev;
+            
             state.pacman.prev = pacman_previous_pos;
             if (Arguments::plays == 1) cout << state << endl;
             //Lunafreya Changes
-            //std::cout << "Elapsed: " << duration_cast<double>(sw.elapsed()) << " " << roundsTeste << " " << state.ghosts[1].scatter_cycle_rounds <<  " " << state.ghosts[1].chase_cycle_rounds << '\n';
+            //std::cout << "Elapsed: " << elapsedMinutes(duration_cast<int>(sw.elapsed())) << ":" << elapsedSeconds(duration_cast<int>(sw.elapsed())) << '\n';
             state.total_points = state.ghost_eaten_total_points + (state.powerpills_eaten * 50) + (state.pills_eaten * 10);
         }
 
@@ -350,8 +359,8 @@ public:
             cout << (game_over ? "LOST" : "WON") << endl;
         }
         this->result.won = not game_over;
-        this->result.completion = 1 - (state.n_normal_pills_left + state.n_powerpills_left)/double(state.total_pills);
-        //this->result.completion = 1 - state.total_points/2000;
+        //this->result.completion = 1 - (state.n_normal_pills_left + state.n_powerpills_left)/double(state.total_pills);
+        this->result.completion = 1 - state.total_points/7000;
         pacman->notify_game_result(this->result.won);
         return this->result;
     }

@@ -18,4 +18,4 @@ Note that with the default arguments the training process takes a long time, bec
 ./pacman n_hidden_layers=1 n_hidden_neurons=150 plays=7500 learning_rate=0.0000008 discount_factor=0.955 activation_function=sigmoid
 
 
-./pacman Pacman_AI_Agent=RL plays=7500 learning_rate=0.0000008 discount_factor=0.955
+./pacman pacman_ai_agent=RL plays=7500 learning_rate=0.0000008 discount_factor=0.955

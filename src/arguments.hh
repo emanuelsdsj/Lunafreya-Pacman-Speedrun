@@ -94,15 +94,15 @@ const Activation_Function DFL_ACTIVATION_FUNCTION = RELU;
 /** Q-LEARNING ARGUMENTS **/
 //Lunafreya Changes
 const double DFL_REWARD_PILL = 5;
-const double DFL_REWARD_POWERPILL = 10;
-const double DFL_REWARD_KILL_GHOST = 200;
-const double DFL_REWARD_STEP = 2;
+const double DFL_REWARD_POWERPILL = 200;
+const double DFL_REWARD_KILL_GHOST = 500;
+const double DFL_REWARD_STEP = 5;
 
 //const double DFL_REWARD_PILL = 9;
 //const double DFL_REWARD_POWERPILL = 1;
 //const double DFL_REWARD_KILL_GHOST = 2;
 //const double DFL_REWARD_STEP = -5;
-const double DFL_REWARD_WIN = 200;
+const double DFL_REWARD_WIN = 500;
 const double DFL_REWARD_LOSE = -600;
 const double DFL_REWARD_REVERSE = -0.5;
 

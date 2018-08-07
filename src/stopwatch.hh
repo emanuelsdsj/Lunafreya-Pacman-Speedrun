@@ -26,7 +26,7 @@ public:
     {
         return Clock::now() - last_;
     }
-
+    
     typename Clock::duration tick()
     {
         auto now = Clock::now();

@@ -119,7 +119,8 @@ public:
     };
     inline void notify_eaten_pill() override { reward += Arguments::reward_pill; };
     inline void notify_eaten_powerpill() override { reward += Arguments::reward_powerpill; }
-    inline void notify_killed_ghost() override { reward += Arguments::reward_kill_ghost; }
+    //lunafreya
+    inline void notify_killed_ghost(const State& s) override { /*if(s.combo == 400) reward = Arguments::reward_kill_ghost * 2; if(s.combo == 800) reward = Arguments::reward_kill_ghost * 3; if(s.combo == 1600) reward = Arguments::reward_kill_ghost * 4; else*/ reward += Arguments::reward_kill_ghost; }
     inline void notify_reverse_direction() override { reward += Arguments::reward_reverse; }
 };
 

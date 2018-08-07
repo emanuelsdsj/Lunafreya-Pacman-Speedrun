@@ -34,13 +34,13 @@ public:
                         d = PathMagic::from_to(ghost.pos, ghost.scatter_pos); break;
                     case CHASE:
                         switch(ghost.typeGhost) {
-                            case 1: d = PathMagic::from_to(ghost.pos, s.pacman.pos); break; // Blinky- only chase
-                            case 2: d = PathMagic::from_to(ghost.pos, pinkyAction(s, 4, ghost_id)); break; // Pinky - 4 pos in front of pacman
-                            case 3: if(inkyAction(s) > 0) {// Inky - if blinky on chase ((blinky distance of pacman) * 2) in front of pacman limit of 10 pos else run away
+                            case 0: d = PathMagic::from_to(ghost.pos, s.pacman.pos); break; // Blinky- only chase
+                            case 1: d = PathMagic::from_to(ghost.pos, pinkyAction(s, 4, ghost_id)); break; // Pinky - 4 pos in front of pacman
+                            case 2: if(inkyAction(s) > 0) {// Inky - if blinky on chase ((blinky distance of pacman) * 2) in front of pacman limit of 10 pos else run away
                                         d = PathMagic::from_to(ghost.pos, pinkyAction(s, inkyAction(s), ghost_id)); break;
                                     }
                                     d = PathMagic::try_to_avoid(ghost.pos, PathMagic::from_to(ghost.pos, s.pacman.pos)); break;
-                            case 4: if(clydeAction(s)) {// run from pacman when close <= 4 positions
+                            case 3: if(clydeAction(s)) {// run from pacman when close <= 4 positions
                                         d = PathMagic::try_to_avoid(ghost.pos, PathMagic::from_to(ghost.pos, s.pacman.pos)); break;
                                     }
                                     d = PathMagic::from_to(ghost.pos, s.pacman.pos); break;

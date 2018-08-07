@@ -8,7 +8,6 @@ class Agent_State {
 public:
     Position pos;
     Position prev;
-    Position lastPrev;
     Direction dir;
     float step;
 
@@ -20,7 +19,6 @@ public:
         prev = o.prev;
         dir = o.dir;
         step = o.step;
-        lastPrev = o.lastPrev;
     }
 };
 
