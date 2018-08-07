@@ -90,13 +90,6 @@ private:
             }
         }
     }
-    int elapsedMinutes(int time) {
-        return time / 60;
-    }
-
-    int elapsedSeconds(int time) {
-        return time - (time / 60) * 60;
-    }
 
 public:
     Agent* pacman;
@@ -349,7 +342,7 @@ public:
             state.pacman.prev = pacman_previous_pos;
             if (Arguments::plays == 1) cout << state << endl;
             //Lunafreya Changes
-            //std::cout << "Elapsed: " << elapsedMinutes(duration_cast<int>(sw.elapsed())) << ":" << elapsedSeconds(duration_cast<int>(sw.elapsed())) << '\n';
+            std::cout << "Elapsed: " << duration_cast<int>(sw.elapsed()) / 60 << ":" << duration_cast<int>(sw.elapsed()) << '\n';
             state.total_points = state.ghost_eaten_total_points + (state.powerpills_eaten * 50) + (state.pills_eaten * 10);
         }
 
