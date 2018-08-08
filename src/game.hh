@@ -28,7 +28,6 @@ struct GameResult {
 
 class Game {
 private:
-    int roundsTeste = 0;
     vector<Agent*> ghosts;
 
     float ghost_speed(int ghost_id) {
@@ -66,14 +65,12 @@ private:
 
                 switch (ghost.behaviour) {
                     case SCATTER:
-                        roundsTeste++;
                         distribution = normal_distribution<float>(ghost.chase_cycle_rounds, Arguments::cycle_rounds_stdev);
                         ghost.behaviour = Ghost_Behaviour::CHASE;
                         ghost.chase_cycle_rounds = min(1000000, int(ghost.chase_cycle_rounds*Arguments::chase_cycle_factor));
                         break;
                     case CHASE:
-                        if (ghost.scatter_cycle_rounds >= 1) {  
-                            roundsTeste++;
+                        if (ghost.scatter_cycle_rounds >= 1) {
                             distribution = normal_distribution<float>(ghost.scatter_cycle_rounds, Arguments::cycle_rounds_stdev);
                             ghost.behaviour = Ghost_Behaviour::SCATTER;
                             ghost.scatter_cycle_rounds /= Arguments::scatter_cycle_factor;
@@ -206,7 +203,7 @@ public:
         if (Arguments::plays == 1) cout << state << endl;
         Stopwatch<> sw;
         //Lunafreya Changes
-        while (/*state.n_powerpills_left + state.n_normal_pills_left > 0 ||*/ state.total_points < 7000 && state.round <= 1216) { // break if game_over
+        while (/*state.n_powerpills_left + state.n_normal_pills_left > 0 ||*/ state.total_points < 10000 && state.round <= 1216) { // break if game_over
             //Lunafreya Changes
             if(state.round > 1215){
                 game_over = true;
@@ -214,7 +211,7 @@ public:
                 break;
             }
             //Lunafreya Changes
-            if(state.n_powerpills_left + state.n_normal_pills_left <= 0 && state.total_points < 7000){
+            if(state.n_powerpills_left + state.n_normal_pills_left <= 0 && state.total_points < 10000){
                 game_over = true;
                 sw.reset();
                 break;
@@ -353,7 +350,7 @@ public:
         }
         this->result.won = not game_over;
         //this->result.completion = 1 - (state.n_normal_pills_left + state.n_powerpills_left)/double(state.total_pills);
-        this->result.completion = 1 - state.total_points/7000;
+        this->result.completion = 1 - state.total_points/10000;
         pacman->notify_game_result(this->result.won);
         return this->result;
     }

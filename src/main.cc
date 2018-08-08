@@ -21,7 +21,6 @@ struct StatisticInfo {
     double won;
     double completion;
     double mse;
-    double maxPoints = 0;
 
     StatisticInfo() : won(0), completion(0.0), mse(0.0) {}
     StatisticInfo(const GameResult& r, double mse) : won((uint)r.won), completion(r.completion), mse(mse) {}
@@ -92,10 +91,10 @@ struct Statistics {
     }
 };
 
-void print_info(const Statistics& s, bool mse, double maxPoints) {
+void print_info(const Statistics& s, bool mse, double maxPoints, int rounds) {
     StatisticInfo average_always = s.avg_always();
     StatisticInfo average = s.avg();
-    cout << maxPoints << " || "<< 100*average.won << "% || " << 100*average.completion << "%";
+    cout << maxPoints << " - " << rounds << " || "<< 100*average.won << "% || " << 100*average.completion << "%";
     if (mse) cout << " || " << average.mse;
 
     cout << " :: [" << int(s.totals_always.won) << "/" << s.observation_count << "] ";
@@ -133,6 +132,7 @@ int main(int argc, char* argv[]) {
     cout.setf(ios::fixed);
     cout.precision(1);
     int maxPoints = 0;
+    int rounds = 0;
 
     Arguments::init(argc, argv);
     Arguments::postprocess();
@@ -165,7 +165,7 @@ int main(int argc, char* argv[]) {
 
 
     bool is_rl = Arguments::pacman_ai_agent == RL;
-    cout << "Max Points || Wins || Completion" << (is_rl ? " || MSE" : "") <<  " (Last " << s_log.precision << " :: Always)" << endl;
+    cout << "Max Points - Rounds || Wins || Completion" << (is_rl ? " || MSE" : "") <<  " (Last " << s_log.precision << " :: Always)" << endl;
 
     /** TRAINING STAGE **/
     int i_start_evaluation = Arguments::plays*Arguments::nn_evaluation_start;
@@ -175,10 +175,15 @@ int main(int argc, char* argv[]) {
 
         game.play();
 
-        if(maxPoints == 0)
+        if(maxPoints == 0) {
             maxPoints = game.state.total_points;
-        else if(maxPoints < game.state.total_points)
+            rounds = game.state.round;
+        }
+
+        else if(maxPoints < game.state.total_points) {
             maxPoints = game.state.total_points;
+            rounds = game.state.round;
+        }
 
         double mse = is_rl ? ((RL_Pacman_Agent*)(pacman_ai))->mse_sum_last/game.state.round : 0;
         StatisticInfo info(game.result, mse);
@@ -198,7 +203,7 @@ int main(int argc, char* argv[]) {
 
         if (i%Arguments::logging_update_rate == Arguments::logging_update_rate - 1) {
             cout << "\r";
-            print_info(s_log, is_rl, maxPoints);
+            print_info(s_log, is_rl, maxPoints, rounds);
             if (is_rl and i >= i_start_evaluation) cout << " ** Max wins: " << 100*max_win_ratio;
             cout << "  ";
             cout.flush();
