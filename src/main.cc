@@ -216,13 +216,15 @@ int main(int argc, char* argv[]) {
 
     double maxtestcompletion;
     double maxtestwins;
+    maxPoints = 0;
+    rounds = 0;
     /** TESTING STAGE **/
     if (is_rl and max_nns[0].reserved) {
         int maxtest = -1;
         double maxtestevaluation = -1;
 
         for (uint j = 0; j < max_nns.size(); ++j) {
-            cout << endl << "Testing best agent: Wins || Completion ("
+            cout << endl << "Testing best agent: Max Points - Rounds || Wins || Completion ("
                  << Arguments::test_statistics_precision - j*Arguments::test_sampling_interval << " before)" << endl;
 
             Game game_test;
@@ -236,12 +238,22 @@ int main(int argc, char* argv[]) {
             for (int i = 0; i < Arguments::n_games_test; ++i) {
                 game_test.play();
 
+                if(maxPoints == 0) {
+                    maxPoints = game_test.state.total_points;
+                    rounds = game_test.state.round;
+                }
+
+                else if(maxPoints < game_test.state.total_points) {
+                    maxPoints = game_test.state.total_points;
+                    rounds = game_test.state.round;
+                }
+
                 s_log_test.new_observation(StatisticInfo(game_test.result));
 
                 if (i%Arguments::logging_update_rate == Arguments::logging_update_rate - 1) {
                     avg = s_log_test.avg_always();
                     cout << "\r[" << int(s_log_test.totals_always.won) << "/" << s_log_test.observation_count << "] "
-                         << 100*avg.won << "% || " << 100*avg.completion << "%";
+                         << maxPoints << " - " << rounds << " || " << 100*avg.won << "% || " << 100*avg.completion << "%";
 
                     cout.flush();
                 }
