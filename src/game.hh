@@ -349,8 +349,8 @@ public:
             cout << (game_over ? "LOST" : "WON") << endl;
         }
         this->result.won = not game_over;
-        //this->result.completion = 1 - (state.n_normal_pills_left + state.n_powerpills_left)/double(state.total_pills);
-        this->result.completion = 1 - state.total_points/10000;
+        this->result.completion = 1 - (state.n_normal_pills_left + state.n_powerpills_left)/double(state.total_pills);
+        //this->result.completion = 1 - state.total_points/10000;
         pacman->notify_game_result(this->result.won);
         return this->result;
     }

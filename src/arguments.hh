@@ -88,13 +88,13 @@ const int DFL_N_HIDDEN_NEURONS = 60;
 
 const double DFL_LEARNING_RATE = 0.0000008;
 
-const Activation_Function DFL_ACTIVATION_FUNCTION = SIGMOID;
+const Activation_Function DFL_ACTIVATION_FUNCTION = RELU;
 
 
 /** Q-LEARNING ARGUMENTS **/
 //Lunafreya Changes
 const double DFL_REWARD_PILL = 5;
-const double DFL_REWARD_POWERPILL = 200;
+const double DFL_REWARD_POWERPILL = 50;
 const double DFL_REWARD_KILL_GHOST = 500;
 const double DFL_REWARD_STEP = 5;
 
@@ -103,11 +103,11 @@ const double DFL_REWARD_STEP = 5;
 //const double DFL_REWARD_KILL_GHOST = 2;
 //const double DFL_REWARD_STEP = -5;
 const double DFL_REWARD_WIN = 500;
-const double DFL_REWARD_LOSE = -600;
+const double DFL_REWARD_LOSE = -1000;
 const double DFL_REWARD_REVERSE = -0.5;
 
 
-const double DFL_DISCOUNT_FACTOR = 0.955;
+const double DFL_DISCOUNT_FACTOR = 0.6;
 
 // When active doesn't allow pacman to reverse its direction
 // when performing exploration, nor change its target direction
