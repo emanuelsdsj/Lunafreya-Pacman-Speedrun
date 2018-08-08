@@ -94,7 +94,7 @@ struct Statistics {
 void print_info(const Statistics& s, bool mse, double maxPoints, int rounds, double maxPointsFast, int fastRounds) {
     StatisticInfo average_always = s.avg_always();
     StatisticInfo average = s.avg();
-    cout << maxPointsFast << " - " << fastRounds << " || "<< rounds << maxPoints << " - " << rounds << " || "<< 100*average.won << "% || " << 100*average.completion << "%";
+    cout << maxPointsFast << " - " << fastRounds << " || "<< maxPoints << " - " << rounds << " || "<< 100*average.won << "% || " << 100*average.completion << "%";
     if (mse) cout << " || " << average.mse;
 
     cout << " :: [" << int(s.totals_always.won) << "/" << s.observation_count << "] ";
