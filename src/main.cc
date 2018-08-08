@@ -183,6 +183,9 @@ int main(int argc, char* argv[]) {
         else if(maxPoints < game.state.total_points) {
             maxPoints = game.state.total_points;
             rounds = game.state.round;
+        } else if(maxPoints >= 10000 && game.state.round < rounds) {
+            maxPoints = game.state.total_points;
+            rounds = game.state.round;
         }
 
         double mse = is_rl ? ((RL_Pacman_Agent*)(pacman_ai))->mse_sum_last/game.state.round : 0;
@@ -246,6 +249,10 @@ int main(int argc, char* argv[]) {
                 else if(maxPoints < game_test.state.total_points) {
                     maxPoints = game_test.state.total_points;
                     rounds = game_test.state.round;
+                }
+                else if(maxPoints >= 10000 && game.state.round < rounds) {
+                    maxPoints = game.state.total_points;
+                    rounds = game.state.round;
                 }
 
                 s_log_test.new_observation(StatisticInfo(game_test.result));
