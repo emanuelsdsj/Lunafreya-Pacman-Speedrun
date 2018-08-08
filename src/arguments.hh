@@ -88,7 +88,7 @@ const int DFL_N_HIDDEN_NEURONS = 60;
 
 const double DFL_LEARNING_RATE = 0.0000008;
 
-const Activation_Function DFL_ACTIVATION_FUNCTION = RELU;
+const Activation_Function DFL_ACTIVATION_FUNCTION = SIGMOID;
 
 
 /** Q-LEARNING ARGUMENTS **/
