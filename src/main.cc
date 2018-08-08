@@ -91,10 +91,10 @@ struct Statistics {
     }
 };
 
-void print_info(const Statistics& s, bool mse, double maxPoints, int rounds) {
+void print_info(const Statistics& s, bool mse, double maxPoints, int rounds, double maxPointsFast, int fastRounds) {
     StatisticInfo average_always = s.avg_always();
     StatisticInfo average = s.avg();
-    cout << maxPoints << " - " << rounds << " || "<< 100*average.won << "% || " << 100*average.completion << "%";
+    cout << maxPointsFast << " - " << fastRounds << " || "<< rounds << maxPoints << " - " << rounds << " || "<< 100*average.won << "% || " << 100*average.completion << "%";
     if (mse) cout << " || " << average.mse;
 
     cout << " :: [" << int(s.totals_always.won) << "/" << s.observation_count << "] ";
@@ -131,8 +131,10 @@ void write_json(vector<pair<string, string>> data, ostream& os) {
 int main(int argc, char* argv[]) {
     cout.setf(ios::fixed);
     cout.precision(1);
-    int maxPoints = 0;
+    int maxPoints = 0;  
     int rounds = 0;
+    int maxPointsFast = 0;
+    int fastRounds = 2000;
 
     Arguments::init(argc, argv);
     Arguments::postprocess();
@@ -165,7 +167,7 @@ int main(int argc, char* argv[]) {
 
 
     bool is_rl = Arguments::pacman_ai_agent == RL;
-    cout << "Max Points - Rounds || Wins || Completion" << (is_rl ? " || MSE" : "") <<  " (Last " << s_log.precision << " :: Always)" << endl;
+    cout << "Max Points - Fast Rounds || Max Points - Rounds || Wins || Completion" << (is_rl ? " || MSE" : "") <<  " (Last " << s_log.precision << " :: Always)" << endl;
 
     /** TRAINING STAGE **/
     int i_start_evaluation = Arguments::plays*Arguments::nn_evaluation_start;
@@ -183,9 +185,10 @@ int main(int argc, char* argv[]) {
         else if(maxPoints < game.state.total_points) {
             maxPoints = game.state.total_points;
             rounds = game.state.round;
-        } else if(maxPoints >= 10000 && game.state.round < rounds) {
-            maxPoints = game.state.total_points;
-            rounds = game.state.round;
+        }
+        if(game.state.total_points >= 10000 && game.state.round < fastRounds) {
+            maxPointsFast = game.state.total_points;
+            fastRounds = game.state.round;
         }
 
         double mse = is_rl ? ((RL_Pacman_Agent*)(pacman_ai))->mse_sum_last/game.state.round : 0;
@@ -206,7 +209,7 @@ int main(int argc, char* argv[]) {
 
         if (i%Arguments::logging_update_rate == Arguments::logging_update_rate - 1) {
             cout << "\r";
-            print_info(s_log, is_rl, maxPoints, rounds);
+            print_info(s_log, is_rl, maxPoints, rounds, maxPointsFast, fastRounds);
             if (is_rl and i >= i_start_evaluation) cout << " ** Max wins: " << 100*max_win_ratio;
             cout << "  ";
             cout.flush();
@@ -219,6 +222,8 @@ int main(int argc, char* argv[]) {
 
     double maxtestcompletion;
     double maxtestwins;
+    maxPointsFast = 0;
+    fastRounds = 2000;
     maxPoints = 0;
     rounds = 0;
     /** TESTING STAGE **/
@@ -227,7 +232,7 @@ int main(int argc, char* argv[]) {
         double maxtestevaluation = -1;
 
         for (uint j = 0; j < max_nns.size(); ++j) {
-            cout << endl << "Testing best agent: Max Points - Rounds || Wins || Completion ("
+            cout << endl << "Testing best agent: Max points - Fast rounds || Max Points - Rounds || Wins || Completion ("
                  << Arguments::test_statistics_precision - j*Arguments::test_sampling_interval << " before)" << endl;
 
             Game game_test;
@@ -250,9 +255,9 @@ int main(int argc, char* argv[]) {
                     maxPoints = game_test.state.total_points;
                     rounds = game_test.state.round;
                 }
-                else if(maxPoints >= 10000 && game.state.round < rounds) {
-                    maxPoints = game.state.total_points;
-                    rounds = game.state.round;
+                if(game.state.total_points >= 10000 && game.state.round < fastRounds) {
+                    maxPointsFast = game.state.total_points;
+                    fastRounds = game.state.round;
                 }
 
                 s_log_test.new_observation(StatisticInfo(game_test.result));
@@ -260,7 +265,7 @@ int main(int argc, char* argv[]) {
                 if (i%Arguments::logging_update_rate == Arguments::logging_update_rate - 1) {
                     avg = s_log_test.avg_always();
                     cout << "\r[" << int(s_log_test.totals_always.won) << "/" << s_log_test.observation_count << "] "
-                         << maxPoints << " - " << rounds << " || " << 100*avg.won << "% || " << 100*avg.completion << "%";
+                         << maxPointsFast << " - " << fastRounds << " || " << maxPoints << " - " << rounds << " || " << 100*avg.won << "% || " << 100*avg.completion << "%";
 
                     cout.flush();
                 }
