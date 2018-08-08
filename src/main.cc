@@ -255,9 +255,9 @@ int main(int argc, char* argv[]) {
                     maxPoints = game_test.state.total_points;
                     rounds = game_test.state.round;
                 }
-                if(game.state.total_points >= 10000 && game.state.round < fastRounds) {
-                    maxPointsFast = game.state.total_points;
-                    fastRounds = game.state.round;
+                if(game_test.state.total_points >= 10000 && game_test.state.round < fastRounds) {
+                    maxPointsFast = game_test.state.total_points;
+                    fastRounds = game_test.state.round;
                 }
 
                 s_log_test.new_observation(StatisticInfo(game_test.result));
