@@ -17,6 +17,7 @@ To be continued...
         - Pinky: 4 positions in front of pacman.
         - Inky: if blinky on chase > (blinky distance of pacman) * 2 in front of pacman, limit of 8 pos else run from pacman.
         - Clyde: Chase pacman when close 4 positions run from pacman
+    - Added in train Max Points and rounds number.
     - to be continued...
 
 - Deep q-learning
