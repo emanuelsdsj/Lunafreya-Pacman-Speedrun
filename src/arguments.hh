@@ -54,9 +54,9 @@ const float DFL_SCATTER_CYCLE_FACTOR = 1;
 const float DFL_CHASE_CYCLE_FACTOR = 1;
 // Initial duration of a scatter cycle in rounds.
 
-const int DFL_INITIAL_SCATTER_CYCLE_ROUNDS = 94; // (13,5 rounds = 1 second) - 7 seconds
+const int DFL_INITIAL_SCATTER_CYCLE_ROUNDS = 48; // (13,5 rounds = 1 second) - 7 seconds
 // Same for chase cycle
-const int DFL_INITIAL_CHASE_CYCLE_ROUNDS = 270; //20 seconds
+const int DFL_INITIAL_CHASE_CYCLE_ROUNDS = 135; //20 seconds
 
 // Standard deviation of the normal distribution used to decide the number
 // of ghost mode cycles when there is a change in the mode
