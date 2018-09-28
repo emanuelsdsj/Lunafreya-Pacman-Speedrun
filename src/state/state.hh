@@ -36,12 +36,6 @@ struct State {
     static int total_powerpills;
     static int total_normal_pills;
     static int n_ghosts;
-    //Lunafreya Changes
-    //static double ghost_eaten_total_points;
-    //static int pills_eaten;
-    //static int powerpills_eaten;
-    //static double total_points;
-    //static double combo;
 
     unordered_set<int> pills;
     unordered_set<int> powerpills;
@@ -56,7 +50,7 @@ struct State {
     int n_normal_pills_left;
 
     int n_powerpills_left;
-//Lunafreya Changes
+    //Lunafreya Changes
     int pills_eaten;
     int powerpills_eaten;
     double total_points;
@@ -189,11 +183,6 @@ int State::max_dist;
 int State::total_normal_pills;
 int State::total_powerpills;
 int State::n_ghosts;
-//double State::ghost_eaten_total_points;
-//int State::pills_eaten;
-//int State::powerpills_eaten;
-//double State::combo;
-//double State::total_points;
 vector<Position> State::valid_positions;
 vector<Position> State::valid_positions_no_spawn;
 uniform_int_distribution<> State::distribution_valid_pos_no_spawn;

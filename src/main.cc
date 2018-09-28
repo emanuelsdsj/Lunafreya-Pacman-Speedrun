@@ -94,8 +94,8 @@ struct Statistics {
 void print_info(const Statistics& s, bool mse, double maxPoints, int rounds, double maxPointsFast, int fastRounds) {
     StatisticInfo average_always = s.avg_always();
     StatisticInfo average = s.avg();
-    cout << maxPointsFast << " - " << fastRounds << " || "<< maxPoints << " - " << rounds << " || "<< 100*average.won << "% || " << 100*average.completion << "%";
-    if (mse) cout << " || " << average.mse;
+    cout << maxPointsFast << "  -  " << fastRounds << " |1| "<< maxPoints << "  -  " << rounds << " |2| "<< 100*average.won << "% |3| " << 100*average.completion << "%";
+    if (mse) cout << " |4| " << average.mse;
 
     cout << " :: [" << int(s.totals_always.won) << "/" << s.observation_count << "] ";
 
@@ -167,7 +167,7 @@ int main(int argc, char* argv[]) {
 
 
     bool is_rl = Arguments::pacman_ai_agent == RL;
-    cout << "Max Points - Fast Rounds || Max Points - Rounds || Wins || Completion" << (is_rl ? " || MSE" : "") <<  " (Last " << s_log.precision << " :: Always)" << endl;
+    cout << "Max Points - Fast Rounds |1| Max Points - Rounds |2| Wins |3| Completion" << (is_rl ? " |4| MSE" : "") <<  " (Last " << s_log.precision << " :: Always)" << endl;
 
     /** TRAINING STAGE **/
     int i_start_evaluation = Arguments::plays*Arguments::nn_evaluation_start;

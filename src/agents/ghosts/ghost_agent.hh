@@ -35,13 +35,18 @@ public:
                     case CHASE:
                         switch(ghost.typeGhost) {
                             case 0: d = PathMagic::from_to(ghost.pos, s.pacman.pos); break; // Blinky- only chase
-                            case 1: d = PathMagic::from_to(ghost.pos, pinkyAction(s, 4, ghost_id)); break; // Pinky - 4 pos in front of pacman
-                            case 2: if(inkyAction(s) > 0) {// Inky - if blinky on chase ((blinky distance of pacman) * 2) in front of pacman limit of 10 pos else run away
+                            case 1: if(clydeAction(s, ghost_id)) {
+                                        d = PathMagic::from_to(ghost.pos, s.pacman.pos); break;
+                                    }
+                                    d = PathMagic::from_to(ghost.pos, pinkyAction(s, 4, ghost_id)); break; // Pinky - 4 pos in front of pacman
+                            case 2: if(clydeAction(s, ghost_id)){
+                                        d = PathMagic::from_to(ghost.pos, s.pacman.pos); break;
+                                    } else if(inkyAction(s) > 0) {// Inky - if blinky on chase ((blinky distance of pacman) * 2) in front of pacman limit of 10 pos else run away
                                         d = PathMagic::from_to(ghost.pos, pinkyAction(s, inkyAction(s), ghost_id)); break;
                                     }
                                     d = PathMagic::try_to_avoid(ghost.pos, PathMagic::from_to(ghost.pos, s.pacman.pos)); break;
-                            case 3: if(clydeAction(s)) {// run from pacman when close <= 4 positions
-                                        d = PathMagic::try_to_avoid(ghost.pos, PathMagic::from_to(ghost.pos, s.pacman.pos)); break;
+                            case 3: if(clydeAction(s, ghost_id)) {// run from pacman when close <= 4 positions
+                                       d = PathMagic::try_to_avoid(ghost.pos, PathMagic::from_to(ghost.pos, s.pacman.pos)); break;
                                     }
                                     d = PathMagic::from_to(ghost.pos, s.pacman.pos); break;
                             default: ensure(false, "Invalid ghost behaviour enum");
@@ -236,12 +241,13 @@ public:
         return 0;
     }
 
-    inline bool clydeAction(const State& s) {
-        int i, j;
-        (s.pacman.pos.i > s.ghosts[3].pos.i) ? i = s.pacman.pos.i - s.ghosts[3].pos.i : i = s.ghosts[3].pos.i - s.pacman.pos.i; // clyde pos and pacman pos
-        (s.pacman.pos.j > s.ghosts[3].pos.j) ? j = s.pacman.pos.j - s.ghosts[3].pos.j : j = s.ghosts[3].pos.j - s.pacman.pos.j;
-        if((i + j) <= 4)
-            return true;
+    inline bool clydeAction(const State& s, int ghostIndex) {
+        int i, j, k;
+        (s.pacman.pos.i > s.ghosts[ghostIndex].pos.i) ? i = s.pacman.pos.i - s.ghosts[ghostIndex].pos.i : i = s.ghosts[ghostIndex].pos.i - s.pacman.pos.i; // clyde pos and pacman pos
+        (s.pacman.pos.j > s.ghosts[ghostIndex].pos.j) ? j = s.pacman.pos.j - s.ghosts[ghostIndex].pos.j : j = s.ghosts[ghostIndex].pos.j - s.pacman.pos.j;
+        k = i + j;
+        if(k <= 4)
+            return true; // temporary
         return false;
     }
 };

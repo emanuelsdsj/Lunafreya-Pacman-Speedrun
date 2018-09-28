@@ -203,9 +203,9 @@ public:
         if (Arguments::plays == 1) cout << state << endl;
         Stopwatch<> sw;
         //Lunafreya Changes
-        while (/*state.n_powerpills_left + state.n_normal_pills_left > 0 ||*/ state.total_points < 10000 && state.round <= 1216) { // break if game_over
+        while (/*state.n_powerpills_left + state.n_normal_pills_left > 0 ||*/ state.total_points < 10000 && state.round <= 1621) { // break if game_over
             //Lunafreya Changes
-            if(state.round > 1215){
+            if(state.round > 1620){
                 game_over = true;
                 sw.reset();
                 break;

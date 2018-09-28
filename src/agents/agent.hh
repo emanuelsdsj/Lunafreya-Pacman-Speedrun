@@ -14,6 +14,8 @@ public:
     virtual inline void notify_eaten_powerpill() {}
     virtual inline void notify_killed_ghost(const State& s) {}
     virtual inline void notify_reverse_direction() {}
+    //lunafreya
+    virtual double getReward() {return 0.0;};
 };
 
 #endif

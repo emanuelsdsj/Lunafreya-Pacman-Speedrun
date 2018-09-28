@@ -1,21 +1,7 @@
 ./pacman pacman_ai_agent=nn153006688607-905 plays=1
 
-
-The generated executable is called pacman. It accepts several program arguments, which can be specified as in the following example command:
-
 ./pacman argname1=value1 argname2=value2 (etc.)
 
-Every argument has a default value. For the full list of arguments, its meanings and default values refer to the source file arguments.hh.
-
-In order to train a neural network with the default maze originalClassic.lay, one can simply run ./pacman. The resulting neural network is saved in the file data/neural-networks/nn<id>.txt. The id is generated automatically.
-
-Now, in order to visualize the reinforcement learning agent game play, one can run ./pacman pacman_ai_agent=nn<id> plays=1. Here <id> is the id of the neural network that was generated, which can be obtained from the corresponding file name. To ease the process, one can use last-nn.coffee script, which outputs the name of the last generated neural network. The command would look like: ./pacman pacman_ai_agent=$(coffee scripts/last-nn.coffee) plays=1.
-
-The best neural network that we obtained during our experiments and testing of the program is included in data/neural-networks/nnbest.txt. Its gameplay can be visualized with the command ./pacman pacman_ai_agent=nnbest plays=1.
-
-Note that with the default arguments the training process takes a long time, because a high number of hidden layers and neurons is used in order to obtain better performance. Still, by using less neurons and training steps good performance (> 60% win ratio) can still be achieved. One example of such parameters would be:
-
 ./pacman n_hidden_layers=1 n_hidden_neurons=150 plays=7500 learning_rate=0.0000008 discount_factor=0.955 activation_function=sigmoid
-
 
 ./pacman pacman_ai_agent=rl plays=7500 learning_rate=0.0000008 discount_factor=0.955

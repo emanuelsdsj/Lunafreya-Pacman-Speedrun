@@ -54,9 +54,9 @@ const float DFL_SCATTER_CYCLE_FACTOR = 1;
 const float DFL_CHASE_CYCLE_FACTOR = 1;
 // Initial duration of a scatter cycle in rounds.
 
-const int DFL_INITIAL_SCATTER_CYCLE_ROUNDS = 48; // doubled valor --- (13,5 rounds = 1 second) 48 = 96 = 7.n around seconds
+const int DFL_INITIAL_SCATTER_CYCLE_ROUNDS = 94; // (13,5 rounds = 1 second) - 7 seconds
 // Same for chase cycle
-const int DFL_INITIAL_CHASE_CYCLE_ROUNDS = 135; // double valor 135 = 27 = 20 seconds
+const int DFL_INITIAL_CHASE_CYCLE_ROUNDS = 270; //20 seconds
 
 // Standard deviation of the normal distribution used to decide the number
 // of ghost mode cycles when there is a change in the mode
@@ -64,14 +64,14 @@ const float DFL_CYCLE_ROUNDS_STDEV = 4;
 //Lunafreya Changes
 const int DFL_N_ROUNDS_POWERPILL = 61;
 //const int DFL_N_ROUNDS_POWERPILL = 35;
-const int DFL_N_ROUNDS_GHOST_REVIVE = 20;
+const int DFL_N_ROUNDS_GHOST_REVIVE = 27;
 
 // For a value of X, ghost #0 will start moving at round 1, ghost #1 will start
 // at round X, ghost #2 will start at round 2*X, ghost #3 will start at round 3*X,
 // and so on. Note that round here also means the time it takes for pacman to move one cell
 
 //Lunafreya Changes
-const int DFL_N_ROUNDS_BETWEEN_GHOSTS_START = 4;
+const int DFL_N_ROUNDS_BETWEEN_GHOSTS_START = 13.5;
 //const int DFL_N_ROUNDS_BETWEEN_GHOSTS_START = 0;
 
 //Lunafreya Changes
@@ -82,11 +82,11 @@ const size_t DFL_RANDOM_SEED = time(0);
 
 /** NEURAL NETWORK ARGUMENTS **/
 
-const int DFL_N_HIDDEN_LAYERS = 7;
-const int DFL_N_HIDDEN_NEURONS = 60;
+const int DFL_N_HIDDEN_LAYERS = 3; // 4
+const int DFL_N_HIDDEN_NEURONS = 150; // 150
 // For the random initialization of the weights in the neural network
 
-const double DFL_LEARNING_RATE = 0.0000008;
+const double DFL_LEARNING_RATE = 0.0000003;
 
 const Activation_Function DFL_ACTIVATION_FUNCTION = RELU;
 
@@ -94,20 +94,20 @@ const Activation_Function DFL_ACTIVATION_FUNCTION = RELU;
 /** Q-LEARNING ARGUMENTS **/
 //Lunafreya Changes
 const double DFL_REWARD_PILL = 5;
-const double DFL_REWARD_POWERPILL = 50;
-const double DFL_REWARD_KILL_GHOST = 500;
-const double DFL_REWARD_STEP = 5;
+const double DFL_REWARD_POWERPILL = 500;
+const double DFL_REWARD_KILL_GHOST = 3000;
+const double DFL_REWARD_STEP = -10;
 
 //const double DFL_REWARD_PILL = 9;
 //const double DFL_REWARD_POWERPILL = 1;
 //const double DFL_REWARD_KILL_GHOST = 2;
 //const double DFL_REWARD_STEP = -5;
-const double DFL_REWARD_WIN = 500;
-const double DFL_REWARD_LOSE = -1000;
-const double DFL_REWARD_REVERSE = -0.5;
+const double DFL_REWARD_WIN = 3000;
+const double DFL_REWARD_LOSE = -9000;
+const double DFL_REWARD_REVERSE = -200;
 
 
-const double DFL_DISCOUNT_FACTOR = 0.6;
+const double DFL_DISCOUNT_FACTOR = 0.9;
 
 // When active doesn't allow pacman to reverse its direction
 // when performing exploration, nor change its target direction
